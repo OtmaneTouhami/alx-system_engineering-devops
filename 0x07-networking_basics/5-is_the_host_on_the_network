@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
-# This script pings the given IP address five times.
 
-if [ "$#" -eq 0 ]; then
+# This script pings an IP address to check if it is reachable on the network.
+
+if [ -z "$1" ]; then
     echo "Usage: $0 {IP_ADDRESS}"
-else
-    ping -c5 "$1" | awk -F'/' 'NR==2 {print "PING '"$1"' ("$4") bytes\n"$0}'
+    exit 1
 fi
+
