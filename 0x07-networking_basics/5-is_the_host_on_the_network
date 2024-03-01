@@ -4,5 +4,5 @@
 if [ "$#" -eq 0 ]; then
     echo "Usage: $0 {IP_ADDRESS}"
 else
-    ping -c5 "$1"
+    ping -c5 "$1" | awk -F'/' 'NR==2 {print "PING '"$1"' ("$4") bytes\n"$0}'
 fi
