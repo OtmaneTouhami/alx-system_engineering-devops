@@ -1,11 +1,6 @@
-# Installs pip and flask
+# install flask using pip
 
-package { 'python3-pip':
-  ensure => installed,
-}
-
-package { 'flask':
-  ensure   => '2.1.0',
-  provider => 'pip',
-  require  => Package['python3-pip'],
+exec { 'install_flask':
+  command => '/usr/bin/pip3 install Flask==2.1.0 Werkzeug==2.0.3',
+  path    => ['/usr/bin'],
 }
