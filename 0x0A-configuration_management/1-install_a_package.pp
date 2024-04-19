@@ -1,5 +1,11 @@
-# Installs a package
+# Installs pip and flask
+
+package { 'python3-pip':
+  ensure => installed,
+}
+
 package { 'flask':
   ensure   => '2.1.0',
-  provider => 'pip'
+  provider => 'pip',
+  require  => Package['python3-pip'],
 }
