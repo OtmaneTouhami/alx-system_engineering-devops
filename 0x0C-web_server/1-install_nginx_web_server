@@ -1,19 +1,30 @@
 #!/usr/bin/env bash
-# Install and configure Nginx web server
+# Installs, configures, and starts the server
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+mkdir -p /var/www/html
+chmod -R 755 /var/www
+echo 'Hello World!' > /var/www/html/index.html
+SERVER_CONFIG=\
+"server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
 
-# Update package lists
-apt-get update
+	root /var/www/html;
+	index index.html index.htm index.nginx-debian.html;
 
-# Install Nginx
-apt-get install -y nginx
+	server_name _;
 
-# Create a new index.html file
-echo "Hello World!" > /var/www/html/index.html
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+}"
 
-# Check if Nginx is running, and start it if not
-if ! pgrep -x "nginx" > /dev/null; then
-    service nginx start
+bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+
+if [ "$(pgrep -c nginx)" -le 0 ]; then
+	sudo service nginx start
 else
-    # Reload Nginx configuration
-    service nginx reload
+	sudo service nginx restart
 fi
