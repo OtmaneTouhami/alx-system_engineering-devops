@@ -1,8 +1,6 @@
 #!/usr/bin/python3
-"""
-Script that queries subscribers on a given Reddit subreddit.
-"""
-
+'''A module containing functions for working with the Reddit API.
+'''
 import requests
 
 
